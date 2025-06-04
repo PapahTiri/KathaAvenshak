@@ -72,4 +72,4 @@ Pull request dan issue sangat diterima! Silakan fork repo ini dan ajukan perubah
 
 ## Lisensi
 
-MIT License © 2024
+MIT License © 2025, PapahTiri @ 2025
