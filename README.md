@@ -32,7 +32,7 @@ KathaAvenshak adalah aplikasi web berbasis Laravel untuk membaca novel, dengan f
 
 1. **Clone repository**
     ```sh
-    git clone <repo-url>
+    git clone https://github.com/PapahTiri/KathaAvenshak.git
     cd KathaAvenshak
     ```
 
