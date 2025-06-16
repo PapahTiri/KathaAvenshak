@@ -8,32 +8,46 @@ use Illuminate\Support\Carbon;
 
 class claimDailyReward extends Controller
 {
-    public function claimDailyReward(Request $request) {
-        $user = auth()->user();
+   public function claim(Request $request)
+    {
+        $user = $request->user();
+        $day = (int) $request->input('day');
         $today = Carbon::today();
-        $day = $request->input('day');
 
+        // Cek apakah sudah klaim hari ke-X sebelumnya (tidak hanya hari ini)
         $alreadyClaimed = DailyLogin::where('user_id', $user->id)
             ->where('day', $day)
-            ->whereDate('claimed_at', $today)
             ->exists();
 
         if ($alreadyClaimed) {
-            return response()->json(['message' => 'Sudah diklaim.'], 400);
+            return response()->json([
+                'success' => false,
+                'message' => 'Reward hari ke-' . $day . ' sudah diklaim.'
+            ], 400);
         }
 
+        // Simpan klaim reward
         DailyLogin::create([
             'user_id' => $user->id,
             'day' => $day,
             'claimed_at' => $today,
         ]);
 
-        $user->increment('coins', $this->getRewardAmount($day));
+        // Tambah koin ke user
+        $rewardAmount = $this->getRewardAmount($day);
+        $user->increment('coins', $rewardAmount);
 
-        return response()->json(['message' => 'Berhasil klaim!']);
+        return response()->json([
+            'success' => true,
+            'message' => 'Reward berhasil diklaim!',
+            'reward' => $rewardAmount,
+            'coins' => $user->coins,
+            'claimed_day' => $day
+        ]);
     }
 
-    private function getRewardAmount($day) {
+    private function getRewardAmount($day)
+    {
         return in_array($day, [6, 7]) ? 40 : 20;
     }
 }

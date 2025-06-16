@@ -21,7 +21,8 @@
     <div class="grid grid-cols-3 gap-4">
       @foreach($schedule as $day => $coins)
         <div
-          class="p-4 border rounded-lg text-center cursor-pointer"
+          :key="'reward-' + {{ $day }}"
+          class="p-4 border rounded-lg text-center transition-all duration-300"
           :class="{
             'bg-gray-300 text-gray-600 cursor-not-allowed': claimed.includes({{ $day }}),
             'bg-amber-100 border-amber-400': {{ $day }} === streak && !claimed.includes({{ $day }}),
@@ -29,19 +30,19 @@
           }"
           @click="claimReward({{ $day }})"
         >
-          <div class="text-sm font-medium">
-            Hari ke-{{ $day }}
-          </div>
+          <div class="text-sm font-medium mb-1">Hari ke-{{ $day }}</div>
+
           <template x-if="claimed.includes({{ $day }})">
-            <div class="mt-1 text-md font-semibold text-gray-600">Diambil</div>
+            <div class="text-green-600 text-md font-semibold">✅ Diambil</div>
           </template>
+
           <template x-if="!claimed.includes({{ $day }})">
-            <div class="mt-1 text-lg font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-1">
+            <div class="text-lg font-bold text-gray-800 dark:text-gray-100 flex items-center justify-center gap-1">
               {{ $coins }}
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                  stroke="currentColor" class="w-5 h-5 flex items-center gap-1 text-yellow-500">
-                  <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
+                   stroke="currentColor" class="w-5 h-5 text-yellow-500">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                      d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125"/>
               </svg>
             </div>
           </template>
@@ -68,11 +69,28 @@
           },
           body: JSON.stringify({ day }),
         })
-        .then(res => res.json())
-        .then(data => {
+        .then(async res => {
+          const data = await res.json().catch(() => null);
+
+          if (!res.ok) {
+            alert(data?.message || 'Terjadi kesalahan.');
+            return;
+          }
+
           if (data.success) {
             this.claimed.push(day);
+            alert(data.message || 'Klaim berhasil!');
+            if (data.coins !== undefined) {
+              const el = document.querySelector('#coin-count');
+              if (el) el.innerText = data.coins;
+            }
+          } else {
+            alert(data.message || 'Klaim gagal.');
           }
+        })
+        .catch(error => {
+          console.error(error);
+          alert('Gagal klaim. Cek koneksi atau server.');
         });
       },
     }

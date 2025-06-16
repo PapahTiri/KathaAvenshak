@@ -1,21 +1,32 @@
 <x-app-layout>
-    <div class="max-w-5xl mx-auto py-6 px-4 bg-white">
+    <div class="max-w-5xl mx-auto py-6 px-4 bg-white dark:bg-gray-900 rounded-md shadow-md">
+
+        {{-- Tombol Back --}}
+        <a href="{{ route('dashboard') }}"  
+                class="flex items-center mb-6 text-gray-700 dark:text-gray-300 hover:text-cyan-500 dark:hover:text-cyan-400 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 me-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+            <span>Back</span>
+        </a>
 
         {{-- Judul --}}
-        <h1 class="text-2xl font-semibold mb-6">Detail Novel</h1>
+        <h1 class="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Detail Novel</h1>
 
         {{-- Card Info --}}
-        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 bg-white shadow p-6 rounded-xl mb-10">
-            <img src="{{ asset('storage/' . $novel->cover_image) }}" class="w-48 h-64 object-cover rounded-md" alt="{{ $novel->title }}">
+        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 bg-white dark:bg-gray-800 shadow p-6 rounded-xl mb-10">
+            <img src="{{ asset('storage/' . $novel->cover_image) }}" 
+                 class="w-48 h-64 object-cover rounded-md" 
+                 alt="{{ $novel->title }}">
 
             <div class="flex-1">
-                <h2 class="text-xl font-bold">{{ $novel->title }}</h2>
-                <p><strong>Author:</strong> {{ $novel->author }}</p>
-                <p><strong>Genre:</strong> - </p>
+                <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $novel->title }}</h2>
+                <p class="text-gray-700 dark:text-gray-300"><strong>Author:</strong> {{ $novel->author }}</p>
+                <p class="text-gray-700 dark:text-gray-300"><strong>Genre:</strong> - </p>
 
                 <div class="mt-4">
-                    <h3 class="font-semibold">Sinopsis</h3>
-                    <p class="text-gray-700">{{ $novel->sinopsis }}</p>
+                    <h3 class="font-semibold text-gray-900 dark:text-gray-100">Sinopsis</h3>
+                    <p class="text-gray-700 dark:text-gray-300">{{ $novel->sinopsis }}</p>
                 </div>
 
                 <div class="mt-6 flex gap-3">
@@ -26,19 +37,19 @@
         </div>
 
         {{-- Latest Series --}}
-        <h2 class="text-lg font-semibold mb-2">Latest Series - Novel</h2>
-        <hr class="border-black border-2 mb-6" />
+        <h2 class="text-lg font-semibold mb-2 text-gray-900 dark:text-gray-100">Latest Series - Novel</h2>
+        <hr class="border-black dark:border-gray-400 border-2 mb-6" />
 
-         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             @foreach ($novel->chapters as $chapter)
                 @php
                     $locked = !$chapter->isUnlocked() && !auth()->user()->hasPurchased($chapter);
                 @endphp
 
-                <div class="p-4 border rounded-lg bg-white shadow-sm">
+                <div class="p-4 border rounded-lg bg-white dark:bg-gray-800 shadow-sm border-gray-300 dark:border-gray-700">
                     <div class="flex items-start justify-between">
                         <div class="max-w-[75%]">
-                            <h3 class="font-semibold text-black">
+                            <h3 class="font-semibold text-gray-900 dark:text-gray-100">
                                 Chapter {{ $chapter->chapter_number }}: {{ $chapter->title }}
                             </h3>
 
@@ -50,9 +61,9 @@
                                     </a>
 
                                     @if($chapter->unlocked_manually)
-                                        <span class="block text-xs text-gray-400 mt-1">Unlocked oleh admin</span>
+                                        <span class="block text-xs text-gray-400 dark:text-gray-500 mt-1">Unlocked oleh admin</span>
                                     @elseif($chapter->isUnlocked())
-                                        <span class="block text-xs text-gray-400 mt-1">Unlocked otomatis</span>
+                                        <span class="block text-xs text-gray-400 dark:text-gray-500 mt-1">Unlocked otomatis</span>
                                     @endif
                                 </div>
                             @endif
@@ -80,4 +91,5 @@
                 </div>
             @endforeach
         </div> 
+    </div>
 </x-app-layout>
