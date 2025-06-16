@@ -4,7 +4,8 @@
             {{ __('Dashboard') }}
         </h2>
     </x-slot> --}}
-
+    
     {{-- Banner --}}
-@include('components.novel-list')
+
+    @include('components.novel-list')
 </x-app-layout>

@@ -17,7 +17,7 @@ class DashboardController extends Controller
         // Top 300, ambil semua (karena isinya belum banyak)
         $top300Novels = $novels;
 
-        return view('dashboard', compact('topNovels', 'top300Novels'));
+        return view('dashboard', compact('topNovels', 'top300Novels', 'novels'));
     }
 
 

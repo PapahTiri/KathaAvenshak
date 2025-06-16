@@ -1,8 +1,8 @@
 <div class="max-w-6xl mx-auto px-4 ">
-
+    @include('components.banner')
     {{-- Top Ranking Novel --}}
     <div class="text-center my-8">
-        <h2 class="text-xl font-semibold mb-4 text-black dark:text-white">Top Ranking Novel</h2>
+        <h2 class="text-xl font-semibold mb-4 text-black dark:text-white">Romance Novel</h2>
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 justify-center">
             @forelse ($topNovels as $novel)
                 <div class="text-center">
