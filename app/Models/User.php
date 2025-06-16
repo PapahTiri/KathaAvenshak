@@ -5,6 +5,7 @@ namespace App\Models;
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Filament\Panel;
 use App\Models\Chapter;
+use App\Models\CoinTopup;
 use App\Models\UserGachaReward;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -49,6 +50,11 @@ class User extends Authenticatable implements FilamentUser
      public function gachaRewards()
     {
         return $this->hasMany(UserGachaReward::class);
+    }
+
+    public function coinTopups()
+    {
+        return $this->hasMany(CoinTopup::class);
     }
     
     /**

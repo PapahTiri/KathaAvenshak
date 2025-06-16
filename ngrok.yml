@@ -1,0 +1,14 @@
+version: "2"
+region: ap
+authtoken: 2y3ysHrKDpXcsgHNJvvzJsHxmZ5_5juu5srEXsXuHymxhxoxN
+
+tunnels:
+  kathaavenshak:
+    proto: http
+    addr: 127.0.0.1:8000
+    host_header: rewrite  # pakai rewrite supaya host header sesuai localhost
+
+  vite:
+    proto: http
+    addr: 127.0.0.1:5173
+    host_header: rewrite

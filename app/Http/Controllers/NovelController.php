@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class NovelController extends Controller
 {
+    public function index()
+    {
+        $topNovels = Novel::inRandomOrder()->take(8)->get();
+        $top300Novels = Novel::latest()->take(300)->get();
+
+        return view('welcome', compact('topNovels', 'top300Novels'));
+    }
     public function show($id)
     {
         $novel = Novel::with('chapters')->findOrFail($id);
