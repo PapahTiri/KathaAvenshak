@@ -56,6 +56,12 @@ class User extends Authenticatable implements FilamentUser
     {
         return $this->hasMany(CoinTopup::class);
     }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
     
     /**
      * The attributes that should be hidden for serialization.

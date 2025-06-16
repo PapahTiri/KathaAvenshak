@@ -15,9 +15,11 @@ class NovelController extends Controller
 
         return view('welcome', compact('topNovels', 'top300Novels'));
     }
+    
     public function show($id)
     {
         $novel = Novel::with('chapters')->findOrFail($id);
+
         return view('novel.show', compact('novel'));
     }
 

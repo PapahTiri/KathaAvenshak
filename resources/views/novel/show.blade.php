@@ -14,11 +14,21 @@
         <h1 class="text-2xl font-semibold mb-6 text-gray-900 dark:text-gray-100">Detail Novel</h1>
 
         {{-- Card Info --}}
-        <div class="flex flex-col md:flex-row items-center md:items-start gap-6 bg-white dark:bg-gray-800 shadow p-6 rounded-xl mb-10">
-            <img src="{{ asset('storage/' . $novel->cover_image) }}" 
-                 class="w-48 h-64 object-cover rounded-md" 
-                 alt="{{ $novel->title }}">
+        <div class="relative flex flex-col md:flex-row items-center md:items-start gap-6 bg-white dark:bg-gray-800 shadow p-6 rounded-xl mb-10">
+            {{-- Badge Likes --}}
+            <div class="absolute top-4 right-4 flex items-center gap-1 text-pink-600 dark:text-pink-400 text-sm font-semibold bg-pink-100 dark:bg-pink-900 px-3 py-1 rounded-full shadow hover:scale-105 transition">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 fill-current" viewBox="0 0 20 20">
+                    <path d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z"/>
+                </svg>
+                {{ number_format($novel->likes) }}
+            </div>
 
+            {{-- Gambar Cover --}}
+            <img src="{{ asset('storage/' . $novel->cover_image) }}" 
+                class="w-48 h-64 object-cover rounded-md" 
+                alt="{{ $novel->title }}">
+
+            {{-- Info --}}
             <div class="flex-1">
                 <h2 class="text-xl font-bold text-gray-900 dark:text-gray-100">{{ $novel->title }}</h2>
                 <p class="text-gray-700 dark:text-gray-300"><strong>Author:</strong> {{ $novel->author }}</p>
@@ -31,7 +41,6 @@
 
                 <div class="mt-6 flex gap-3">
                     <a href="#" class="bg-cyan-400 hover:bg-cyan-500 text-white px-4 py-2 rounded">Novel Chap</a>
-                    {{-- <a href="#" class="bg-cyan-400 hover:bg-cyan-500 text-white px-4 py-2 rounded">Manga Chap</a> --}}
                 </div>
             </div>
         </div>
@@ -89,7 +98,8 @@
                         @endif
                     </div>
                 </div>
-            @endforeach
-        </div> 
-    </div>
+                @endforeach
+            </div> 
+            <livewire:novel-comments :novel="$novel" />
+        </div>
 </x-app-layout>
